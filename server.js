@@ -8,8 +8,27 @@ dotenv.config();
 console.log("Loaded API key:", process.env.OPENAI_API_KEY?.slice(0, 10));
 
 const app = express();
-app.use(cors());
+
 app.use(express.json());
+
+const allowedOrigins = [
+    "http://localhost:5173",       // ✅ local dev
+    "http://localhost:3000",       // just in case
+    "https://your-vercel-app.vercel.app" // future production
+  ];
+  
+  app.use(cors({
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true); // allow Postman
+  
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "OPTIONS"]
+  }));
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
