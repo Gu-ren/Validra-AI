@@ -14,7 +14,7 @@ app.use(express.json());
 const allowedOrigins = [
     "http://localhost:5173",       // ✅ local dev
     "http://localhost:3000",       // just in case
-    "https://your-vercel-app.vercel.app" // future production
+    "https://validra-ai-fe.vercel.app" // future production
   ];
   
   app.use(cors({
